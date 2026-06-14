@@ -157,6 +157,47 @@
 
     .footer-note { text-align: center; color: rgb(20,65,150); font-weight: 600; font-size: 12px; letter-spacing: .03em; font-family: 'Outfit', sans-serif; }
 
+    .proj-link {
+      font-size:18px; font-weight:700; color:#1a6abf;
+      text-decoration:none; position:relative; letter-spacing:.02em;
+      transition:color .2s;
+    }
+    .proj-link:hover { color:#0a3a8a; }
+
+    @keyframes sparklePop {
+      0%   { transform:translate(-50%,-50%) scale(0) rotate(0deg);   opacity:1; }
+      60%  { transform:translate(-50%,-50%) scale(1.3) rotate(180deg); opacity:1; }
+      100% { transform:translate(-50%,-50%) scale(0)   rotate(360deg); opacity:0; }
+    }
+    .sparkle-el {
+      position:fixed; pointer-events:none; z-index:9999;
+      font-size:var(--sz,14px);
+      animation:sparklePop var(--dur,.6s) ease forwards;
+      color:var(--cl,#f0c020);
+      text-shadow:0 0 6px var(--cl,#cl,#f0c020);
+      user-select:none;
+    }
+      font-size:14px; font-weight:600; color:#1a6abf;
+      text-decoration:none; position:relative;
+      letter-spacing:.02em;
+      transition:color .2s;
+    }
+    .proj-link:hover { color:#0a3a8a; }
+
+    @keyframes sparklePop {
+      0%   { transform:translate(-50%,-50%) scale(0) rotate(0deg);   opacity:1; }
+      60%  { transform:translate(-50%,-50%) scale(1.2) rotate(180deg); opacity:1; }
+      100% { transform:translate(-50%,-50%) scale(0) rotate(360deg); opacity:0; }
+    }
+    .sparkle-el {
+      position:fixed; pointer-events:none; z-index:9999;
+      font-size:var(--sz,14px);
+      animation:sparklePop var(--dur,.6s) ease forwards;
+      color:var(--cl,#f0c020);
+      text-shadow:0 0 6px var(--cl,#f0c020);
+      user-select:none;
+    }
+
     /* ===== Projects / Liquid Progress Bar v3 ===== */
     @keyframes waveChar {
       0%,100% { transform:translateY(0); }
@@ -387,10 +428,10 @@ document.addEventListener('touchstart', unlockAudio);
           <!-- top row: icon | pct+name | loader -->
           <div class="pc-top">
             <div class="pc-ico">
-              <img src="https://img1.pic.in.th/images/c9385d00-8601-413b-8fb4-4b7d38eb630d-removebg-preview.png" alt="project icon">
+              <img src="https://img2.pic.in.th/ChatGPT_Image_Jun_14__2026__10_59_48_PM-removebg-preview.png" alt="project icon">
             </div>
             <div class="pc-meta">
-              <div class="pc-pct"><span class="pct-num" id="pctNum">0</span>% <span style="font-size:14px;font-weight:500;color:#2a4a8a">Project progress...</span></div>
+              <div class="pc-pct"><span class="pct-num" id="pctNum">0</span>% <a href="https://siamrp.online" target="_blank" class="proj-link" id="projLink">siamrp.online</a></div>
               <div class="pc-name">Role-Playing Project</div>
             </div>
             <div class="pc-loader"></div>
@@ -491,7 +532,37 @@ for (let i = 0; i < 40; i++) {
   runeLayer.appendChild(el);
 }
 
-/* ---- Count-up 35% ---- */
+/* ---- Sparkle on siamrp link ---- */
+const projLink = document.getElementById('projLink');
+if (projLink) {
+  const CHARS = ['✦','✧','⋆','★','✶','✸','✹','❋','⊹','✺'];
+  const COLORS = ['#f0c020','#ff9de2','#80d8ff','#a0f080','#ffb347','#c084fc','#fff'];
+  let sparkTimer;
+  projLink.addEventListener('mouseenter', () => {
+    sparkTimer = setInterval(() => spawnSparkle(projLink), 60);
+  });
+  projLink.addEventListener('mousemove', (e) => spawnSparkleAt(e.clientX, e.clientY));
+  projLink.addEventListener('mouseleave', () => clearInterval(sparkTimer));
+
+  function spawnSparkle(el) {
+    const r = el.getBoundingClientRect();
+    const x = r.left + Math.random() * r.width;
+    const y = r.top  + Math.random() * r.height;
+    spawnSparkleAt(x, y);
+  }
+  function spawnSparkleAt(x, y) {
+    const el = document.createElement('div');
+    el.className = 'sparkle-el';
+    el.textContent = CHARS[Math.floor(Math.random()*CHARS.length)];
+    const cl = COLORS[Math.floor(Math.random()*COLORS.length)];
+    const sz = 10 + Math.random() * 12;
+    const dur = 0.5 + Math.random() * 0.5;
+    el.style.cssText = `left:${x + (Math.random()-0.5)*30}px;top:${y + (Math.random()-0.5)*20}px;--cl:${cl};--sz:${sz}px;--dur:${dur}s;`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), dur * 1000);
+  }
+}
+
 const pctEl = document.getElementById('pctNum');
 if (pctEl) {
   let cur = 0; const target = 35; const step = 1400 / target;
