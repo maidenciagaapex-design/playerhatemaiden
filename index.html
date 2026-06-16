@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
   <title>playerhate ✦ maiden</title>
+  <link rel="icon" type="image/png" href="https://img1.pic.in.th/images/ChatGPT_Image_Dec_30__2025__08_27_36_AM-removebg-preview.png">
+  <meta name="description" content="maiden — Role-Playing Project | playerhate.space | Contact: maiden@playerhate.space">
+  <meta property="og:title" content="playerhate ✦ maiden">
+  <meta property="og:description" content="maiden — Role-Playing Project | playerhate.space">
+  <meta property="og:image" content="https://img1.pic.in.th/images/ChatGPT_Image_Jun_15__2026__04_00_47_PM-removebg-preview.png">
+  <meta property="og:url" content="https://playerhate.space">
+  <meta property="og:type" content="website">
+  <meta name="robots" content="index, follow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -136,6 +144,37 @@
     }
     @media (min-width: 768px) { .name { font-size: 3rem; } }
     .xat-id { font-size: .95rem; font-weight: 600; color: rgb(40,90,180); letter-spacing: .04em; font-family: 'Outfit', sans-serif; }
+    @keyframes emailGlow {
+      0%   { box-shadow: 0 0 8px 2px rgba(91,159,216,.5), 0 0 20px 4px rgba(91,159,216,.25); border-color: rgba(91,159,216,.6); }
+      25%  { box-shadow: 0 0 12px 3px rgba(232,100,200,.5), 0 0 28px 6px rgba(232,100,200,.25); border-color: rgba(232,100,200,.6); }
+      50%  { box-shadow: 0 0 12px 3px rgba(100,220,255,.6), 0 0 28px 6px rgba(100,220,255,.3); border-color: rgba(100,220,255,.7); }
+      75%  { box-shadow: 0 0 12px 3px rgba(180,100,255,.5), 0 0 28px 6px rgba(180,100,255,.25); border-color: rgba(180,100,255,.6); }
+      100% { box-shadow: 0 0 8px 2px rgba(91,159,216,.5), 0 0 20px 4px rgba(91,159,216,.25); border-color: rgba(91,159,216,.6); }
+    }
+    @keyframes emailBgGlow {
+      0%   { background: rgba(91,159,216,.12); }
+      25%  { background: rgba(232,100,200,.12); }
+      50%  { background: rgba(100,220,255,.12); }
+      75%  { background: rgba(180,100,255,.12); }
+      100% { background: rgba(91,159,216,.12); }
+    }
+    .email-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 6px;
+      font-size: 1rem; font-weight: 700;
+      color: rgb(40,90,180);
+      text-decoration: none;
+      font-family: 'Outfit', sans-serif;
+      border: 1.5px solid rgba(91,159,216,.5);
+      border-radius: 20px;
+      padding: 5px 16px;
+      cursor: pointer;
+      animation: emailGlow 4s ease-in-out infinite, emailBgGlow 4s ease-in-out infinite;
+      transition: color .2s;
+    }
+    .email-link:hover { color: rgb(20,60,160); filter: brightness(1.1); }
+    .email-link.copied { color: #1a8a3a; }
+    .email-icon { font-size: 1rem; }
     .badges { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
     .badge { padding: 3px 10px; border-radius: 8px; font-size: 10px; font-weight: 700; letter-spacing: .05em; font-family: 'Outfit', sans-serif; }
     .badge-24 { background-color: rgb(200,80,140); color: white; }
@@ -373,7 +412,7 @@ document.addEventListener('touchstart', unlockAudio);
 
 <div class="page" id="page">
   <div class="snow-layer" id="snowLayer"></div>
-  <div class="rune-layer" id="runeLayer"></div>
+  <div class="rune-layer" id="runeLayer" aria-hidden="true"></div>
   <div class="overlay"></div>
 
   <main>
@@ -390,6 +429,9 @@ document.addEventListener('touchstart', unlockAudio);
         <div class="info">
           <h1 class="name">maiden</h1>
           <div class="xat-id">(PLAYERHATE)</div>
+          <a href="mailto:maiden@playerhate.space" class="email-link" id="emailLink">
+            <span class="email-icon">✉</span> maiden@playerhate.space
+          </a>
           <div class="badges">
             <span class="badge badge-24">24/7</span>
             <span class="badge badge-on">online</span>
@@ -530,6 +572,23 @@ for (let i = 0; i < 40; i++) {
     animation-delay:${-(Math.random()*15)}s;
   `;
   runeLayer.appendChild(el);
+}
+
+/* ---- Copy email on click ---- */
+const emailLink = document.getElementById('emailLink');
+if (emailLink) {
+  emailLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    navigator.clipboard.writeText('maiden@playerhate.space').then(() => {
+      const orig = emailLink.innerHTML;
+      emailLink.innerHTML = '<span class="email-icon">✓</span> Copied!';
+      emailLink.classList.add('copied');
+      setTimeout(() => {
+        emailLink.innerHTML = orig;
+        emailLink.classList.remove('copied');
+      }, 2000);
+    });
+  });
 }
 
 /* ---- Sparkle on siamrp link ---- */
